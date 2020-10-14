@@ -1,0 +1,23 @@
+
+<root profile="en">
+    <header table="TestTable" desc="描述描述">
+        <field type="int" name="Id" desc="id" /> 
+        <field type="int" name="Quality" desc="品质ID" /> 
+        <field type="int" name="Race" desc="种族ID要和职业表一样" /> 
+        <field type="int" name="Sex" desc="性别枚举要和职业表一样" /> 
+        <field type="int" name="Profession" desc="职业ID要和职业表一样" /> 
+        <field type="Array" name="Pawncreate" desc="角色表现id" /> 
+        <field type="json" name="Skin" desc="角色皮肤id" /> 
+        <field type="int" name="NormalAttackId" desc="普攻技能" /> 
+        <field type="int" name="Active1" desc="主动技能1" /> 
+        <field type="int" name="Active2" desc="主动技能2" /> 
+        <field type="int" name="Innate1" desc="天赋ID1" /> 
+    </header>
+
+    <item Id="4500001"  Quality="5"  Race="1602"  Sex="1"  Profession="1102"  Pawncreate="[1,1,1]"  Skin="{&quot;11&quot;:11}"  NormalAttackId="164001"  Active1="161201"  Active2="161202"  Innate1="141001"   />
+    <item Id="4500002"  Quality="5"  Race="1601"  Sex="1"  Profession="1136"  Pawncreate="[]"  Skin="{&quot;11&quot;:11}"  NormalAttackId="164002"  Active1="161203"  Active2="161204"  Innate1="141003"   />
+    <item Id="4500003"  Quality="5"  Race="11"  Sex="1"  Profession="1133"  Pawncreate="[]"  Skin="{&quot;11&quot;:20}"  NormalAttackId="164003"  Active1="161205"  Active2="161206"  Innate1="141005"   />
+    <item Id="4500004"  Quality="5"  Race="1602"  Sex="2"  Profession="1117"  Pawncreate="[]"  Skin="{&quot;11&quot;:11}"  NormalAttackId="164004"  Active1="161207"  Active2="161208"  Innate1="141007"   />
+    <item Id="4500005"  Quality="5"  Race="1603"  Sex="1"  Profession="1122"  Pawncreate="[]"  Skin="{&quot;11&quot;:11}"  NormalAttackId="164005"  Active1="161209"  Active2="161210"  Innate1="141009"   />
+    
+</root>

@@ -1,0 +1,1 @@
+{"rootPath":"/Users/laosiyao/Documents/workplace/indra/config_services/src/test/resources/excels/Trunk","mvlRootPath":"","outputRootPath":"","filePath":"/Users/laosiyao/Documents/workplace/indra/config_services/src/test/resources/excels/Trunk/config/J-角色-角色配置-Hero.xls"}

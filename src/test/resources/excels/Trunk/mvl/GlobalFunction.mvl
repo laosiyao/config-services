@@ -1,0 +1,9 @@
+def checkResource(moneyType, limit, content){
+   System.out.println("moneyType=" + moneyType + ",limit="+ limit + ",content=" + content);
+   int value = toJson(content).get(moneyType);
+   if( value > limit ){
+        return false;
+   }else{
+        return true;
+   }
+}

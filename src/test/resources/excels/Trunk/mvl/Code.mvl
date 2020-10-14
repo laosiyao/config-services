@@ -1,0 +1,24 @@
+#pragma once
+#include "common/ThirdParties.h"
+
+class @{params.tableName}Cfg
+{
+public:
+	@{params.tableName}Cfg()
+	{
+	    @foreach{fieldInfo : fieldInfoList}@code{
+	        initrialStr = "";
+	        if(fieldInfo.fieldType == "int"){
+	            initrialStr = fieldInfo.fieldName + "= 0;";
+	        }
+	    }@if{initrialStr!=""}@{initrialStr}
+	    @end{}@end{}
+	}
+
+	~@{params.tableName}Cfg(){};
+
+public:
+    @foreach{fieldInfo : fieldInfoList}
+    @if{fieldInfo.fieldType == "int"}int @{fieldInfo.fieldName};@else{fieldInfo.fieldType == "string"}std::string @{fieldInfo.fieldName}@else{}@{fieldInfo.fieldType} @{fieldInfo.fieldName};@end{}@end{}
+};
+

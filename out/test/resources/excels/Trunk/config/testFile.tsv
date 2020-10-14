@@ -1,0 +1,9 @@
+{"tableName":"TestTable","desc":"描述描述","extra":"测试测试"},"globalMvl":"/mvl/GlobalFunction.mvl"}	{"mvl":"/mvl/ClientXml.mvl","output":"/client_xml/@{profile}/Test.xml","profiles":["en","default"]}
+h:desc	唯一Id	名字	名字(英)	消耗	道具id列表
+h:auth	c	s	c	c   cs
+ft	int	string	string	json	array
+fn	Id	[default]Name	[en]Name	Consumes	GoodList
+d	1	XX战甲	cloth	{"1":3000}	[100,200,300]
+d	2	XX戒指	ring	{"1":3000}	[100,200,300]
+d	3	生命药水	lifepoison	{"1":3000}	[100,200,300]
+d	4	经验药水	poison	{"1":3000}	[100,200,300]

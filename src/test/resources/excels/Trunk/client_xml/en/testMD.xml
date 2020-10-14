@@ -1,0 +1,14 @@
+
+<root profile="en">
+    <header table="TestTable" desc="描述描述">
+        <field type="int" name="id" desc="唯一id" />  
+        <field type="string" name="name" desc="名称[默认]" />  
+        <field type="array" name="color" desc="颜色" />  
+        <field type="json" name="price" desc="价格" />  
+    </header>
+
+    <item id="1002"  name="helmet"  color="[2,3,4]"  price="{&quot;1&quot;:300,&quot;5&quot;:90}"   />
+    <item id="1003"  name="shoes"  color="[5,6,7]"  price="{&quot;1&quot;:300,&quot;5&quot;:90}"   />
+    <item id="1004"  name="cloth"  color="[6,7,8]"  price="{&quot;1&quot;:300,&quot;5&quot;:90}"   />
+    
+</root>

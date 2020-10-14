@@ -1,0 +1,30 @@
+@comment{
+  @comment{}括起来的内容不影响表达式
+  @code{} 可穿于整个表达式,如下面escapeXml11()为预设函数（转义xml关键字符），更多预设函数见函数库
+  注意：
+  @code里面遵循java语法
+  表达式计算抛出异常时，浮标定位不一定准确（坑）
+}
+<root profile="@{profile}">
+    <header table="@{params.tableName}" desc="@{params.desc}">@comment{ --遍历所有字段,这样子还可以避免一次换行
+    }@foreach{fieldInfo : fieldInfoList}@code{
+            skipTag = false;
+            // excel会有多余列
+            if(fieldInfo.fieldName == ""){
+                skipTag = true;
+            }
+        }@if{skipTag == false}
+        <field type="@{fieldInfo.fieldType}" name="@{fieldInfo.fieldName}" desc="@{fieldInfo.customHeader.desc}" />  @end{}@end{}
+    </header>
+
+    @foreach{lineList : itemList}@code{
+        skipTag = false;
+    }<item @foreach{item : lineList}@code{
+        // excel会有多余列
+        if(item.fieldInfo.fieldName == ""){
+            skipTag = true;
+         }
+        formatContent=escapeXml11(item.content)
+    }@if{skipTag==false}@{item.fieldInfo.fieldName}="@{formatContent}"  @end{}@end{} />
+    @end{}
+</root>

@@ -1,0 +1,15 @@
+
+<root profile="en">
+    <header table="TestTable" desc="描述描述">
+        <field type="int" name="Id" desc="唯一Id" /> 
+        <field type="string" name="Name" desc="名字(英)" /> 
+        <field type="json" name="Consumes" desc="消耗" /> 
+        <field type="array" name="GoodList" desc="道具id列表" /> 
+    </header>
+
+    <item Id="1"  Name="cloth"  Consumes="{&quot;1&quot;:3000}"  GoodList="[100,200,300]"   />
+    <item Id="2"  Name="ring"  Consumes="{&quot;1&quot;:3000}"  GoodList="[100,200,300]"   />
+    <item Id="3"  Name="lifepoison"  Consumes="{&quot;1&quot;:3000}"  GoodList="[100,200,300]"   />
+    <item Id="4"  Name="poison"  Consumes="{&quot;1&quot;:3000}"  GoodList="[100,200,300]"   />
+    
+</root>

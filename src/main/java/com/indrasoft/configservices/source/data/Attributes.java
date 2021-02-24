@@ -37,22 +37,6 @@ public class Attributes {
      */
     private List<List<CellData>> itemList;
 
-    //    /**
-    //     * 头信息
-    //     * key=(fn,ft,以及自定义行)
-    //     */
-    //    private Map<String, List<String>> headMap;
-    //    /**
-    //     * 字段信息（头信息的变形）
-    //     * key=(fn,ft,以及自定义行)
-    //     */
-    //    private List<Map<String, String>> fieldInfoList;
-    //    /**
-    //     * 内容（行、列）
-    //     * key=(content，fn,ft,以及自定义行)
-    //     */
-    //    private List<List<Map<String, String>>> itemList;
-
     public Attributes(String profile, Map<String, Object> params, String fileName, String sheetName,
             List<FieldInfo> fieldInfoList, List<List<CellData>> itemList) {
         this.profile = profile;

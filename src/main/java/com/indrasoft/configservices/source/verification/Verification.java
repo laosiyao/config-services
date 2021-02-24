@@ -17,7 +17,7 @@ public class Verification {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    public static void verify(Attributes attributes, String globalTemplatePath) throws ConfigServicesException {
+    public static void verify(Attributes attributes, String functions) throws ConfigServicesException {
         List<FieldType> fieldTypeList = new ArrayList<>();
         List<Expression> expressionList = new ArrayList<>();
 
@@ -28,7 +28,7 @@ public class Verification {
         attributes.getFieldInfoList().forEach(fieldInfo -> {
             String checkCode = fieldInfo.getCheckCode();
             if (!StringUtils.isEmpty(checkCode)) {
-                Expression expression = MvelExpression.of(globalTemplatePath, checkCode);
+                Expression expression = MvelExpression.of(functions, checkCode);
                 expressionList.add(expression);
             } else {
                 expressionList.add(null);

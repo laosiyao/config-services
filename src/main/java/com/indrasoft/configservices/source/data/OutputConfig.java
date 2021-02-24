@@ -7,7 +7,7 @@ import java.util.List;
  * @Date 2020/9/22 3:49 下午.
  */
 //@JsonIgnoreProperties(ignoreUnknown = true)
-public class SheetConfig {
+public class OutputConfig {
 
     private String mvl;
 
@@ -39,10 +39,10 @@ public class SheetConfig {
         this.profiles = profiles;
     }
 
-    public SheetConfig() {
+    public OutputConfig() {
     }
 
-    public SheetConfig(String mvl, String output, List<String> profiles) {
+    public OutputConfig(String mvl, String output, List<String> profiles) {
         this.mvl = mvl;
         this.output = output;
         this.profiles = profiles;

@@ -22,9 +22,10 @@ public enum ErrCodeEnum implements ErrCode {
      */
     FILE_NOT_EXSIT("1001", false, "文件不存在 %s"),
     FILE_TYPE_INVALID("1002", false, "不能解析的文件类型 %s"),
-    FILE_CONFIG_INVALID("1003", false, "头信息json配置异常 %s"),
+    FILE_CONFIG_INVALID("1003", false, "json配置异常 %s"),
     TEMPLATE_ERROR("1004", true, "模板运算错误 %s"),
     NO_CONTENT_ERROR("1005", false, "表 %s 没有可导出的内容"),
+    NEED_INDEX_PAGE("1006", false, "表 %s 需要index配置页面"),
 
     /** 配置解析错误 */
     FORMAT_ERR_FIRLD_FORMAT("2001", false, "表:%s  sheet:%s  字段内容:%s  字段类型:%s 格式检查不通过"),

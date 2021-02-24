@@ -2,8 +2,7 @@ package com.indrasoft.configservices.source.file;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.indrasoft.configservices.source.data.SheetConfig;
-import com.indrasoft.configservices.util.Util;
+import com.indrasoft.configservices.source.data.OutputConfig;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -41,32 +40,7 @@ public class ExcelFile extends AbstractFile {
         Iterator<Sheet> iterator = workbook.iterator();
         while (iterator.hasNext()) {
             Sheet sheet = iterator.next();
-            Row row = sheet.getRow(0);
-            if (row != null) {
-                for (int index = 0; index < row.getLastCellNum(); index++) {
-                    if (index == 0) {
-                        continue;
-                    }
-                    Cell cell = row.getCell(index);
-                    if (cell != null) {
-                        cell.setCellType(CellType.STRING);
-                        String content = cell.getStringCellValue();
-                        if (!Util.isJson(content)) {
-                            continue;
-                        }
-                        try {
-                            OBJECT_MAPPER.readValue(content, SheetConfig.class);
-                            sheetList.add(sheet.getSheetName());
-                            break;
-                        } catch (JsonProcessingException e) {
-                            logger.error("{}", e);
-                            continue;
-                        }
-
-                    }
-                }
-
-            }
+            sheetList.add(sheet.getSheetName());
         }
         return sheetList;
     }
@@ -139,7 +113,7 @@ public class ExcelFile extends AbstractFile {
                         cell.setCellType(CellType.STRING);
                         String content = cell.getStringCellValue();
                         try {
-                            OBJECT_MAPPER.readValue(content, SheetConfig.class);
+                            OBJECT_MAPPER.readValue(content, OutputConfig.class);
                         } catch (JsonProcessingException e) {
                             logger.error("{}", e);
                             continue;

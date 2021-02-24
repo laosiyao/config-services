@@ -15,23 +15,16 @@ import java.io.File;
 import java.util.*;
 import java.util.List;
 
+import static org.apache.commons.lang3.StringUtils.*;
+
 /**
  * @Author laosiyao
  * @Date 2020/9/22 3:49 下午.
  */
 public class SheetData {
 
-    private String mvlRootPath;
-    private String outputRootPath;
-    private String fileName;
-    private String sheetName;
-
-    private Map<String, Object> headParams;
-
     private Logger logger = LoggerFactory.getLogger(SheetData.class);
     private final ObjectMapper objectMapper = new ObjectMapper();
-
-    public static final String HEAD_PARAM_GLOBAL_MVL = "globalMvl";
     public static final String KEY_HEAD = "h:";
     public static final String KEY_FIELD_TYPE = "ftype";
     public static final String KEY_FIELD_NAME = "fname";
@@ -39,11 +32,10 @@ public class SheetData {
     public static final String KEY_PROFILE = "profile";
     static final String KEY_DATA = "d";
 
-    public static final String KEY_PARAMS = "params";
-
-    public static final String KEY_CONTENT = "content";
-
-    private final List<SheetConfig> configList = new ArrayList<>();
+    private String mvlRootPath;
+    private String outputRootPath;
+    private String fileName;
+    private SheetParams sheetParams;
 
     /**
      * key:Profile
@@ -51,21 +43,18 @@ public class SheetData {
     private final Map<String, Attributes> attributesMap = new HashMap<>();
     private Attributes attribute;
 
-    public SheetData(String mvlRootPath, String outputRootPath, String fileName, String sheetName, List<List<String>> sourceLines)
+    public SheetData(String mvlRootPath, String outputRootPath, String fileName, SheetParams sheetParams, List<List<String>> sourceLines)
             throws JsonProcessingException {
         this.mvlRootPath = mvlRootPath;
         this.outputRootPath = outputRootPath;
         this.fileName = fileName;
-        this.sheetName = sheetName;
-        parseHeadLine(sourceLines);
-        if (configList.isEmpty()) {
-            throw new ConfigServicesException(ErrCodeEnum.NO_CONTENT_ERROR, fileName);
-        }
+        this.sheetParams = sheetParams;
+
         parseAttributes(sourceLines);
     }
 
     private void parseAttributes(List<List<String>> sourceLines) {
-        for (SheetConfig config : configList) {
+        for (OutputConfig config : sheetParams.getOutput()) {
             long startAt = System.currentTimeMillis();
             if (CollectionUtils.isEmpty(config.getProfiles())) {
                 logger.info(config.toString());
@@ -78,11 +67,11 @@ public class SheetData {
         }
     }
 
-    private Attributes getAttributes(String profile, SheetConfig fileSheetConfig, List<List<String>> sourceLines) {
+    private Attributes getAttributes(String profile, OutputConfig outputConfig, List<List<String>> sourceLines) {
         Attributes attributes = new Attributes();
         attributes.setFileName(this.fileName);
-        attributes.setSheetName(this.sheetName);
-        attributes.setParams(headParams);
+        attributes.setSheetName(sheetParams.getTable());
+        attributes.setParams(sheetParams.getParams());
         attributes.setProfile(profile);
 
         List<FieldInfo> fieldInfoList = parseFieldInfoConfig(sourceLines);
@@ -181,34 +170,9 @@ public class SheetData {
         return StringUtils.EMPTY;
     }
 
-    private void parseHeadLine(List<List<String>> sourceLines) {
-
-        List<String> headLine = sourceLines.get(0);
-        for (int index = 0; index < headLine.size(); index++) {
-            String contentStr = headLine.get(index);
-            if (StringUtils.isEmpty(contentStr)) {
-                continue;
-            }
-            if (!Util.isJson(contentStr)) {
-                continue;
-            }
-            try {
-                if (index == 0) {
-                    //A1 {"tableName":"TestTable","desc":"描述描述"},"globalMvl":"/mvl/GlobalFunction.mvl"}
-                    headParams = objectMapper.readValue(contentStr, Map.class);
-                } else {
-                    SheetConfig config = null;
-                    config = objectMapper.readValue(contentStr, SheetConfig.class);
-                    configList.add(config);
-                }
-            } catch (JsonProcessingException e) {
-                logger.error("{} {}", contentStr, e);
-                throw new ConfigServicesException(ErrCodeEnum.FILE_CONFIG_INVALID, contentStr);
-            }
-        }
-    }
-
     /**
+     * 解析头信息
+     *
      * @param sourceLines
      * @param profile
      */
@@ -236,12 +200,14 @@ public class SheetData {
 
                 String content = fields.get(index);
                 if (tag.startsWith(KEY_HEAD)) {
-                    // h:desc
+                    // 自定义，例  h:desc  h:auth
                     String keyName = tag.substring(2, tag.length());
                     header.getCustomHeader().put(keyName, content);
                 } else if (tag.startsWith(KEY_FIELD_TYPE)) {
                     header.setFieldType(content);
                 } else if (tag.startsWith(KEY_FIELD_NAME)) {
+                    // 字段名特殊处理
+                    parseFieldName(content);
                     header.setFieldName(content);
                 } else if (tag.startsWith(KEY_PROFILE)) {
                     header.setProfile(content);
@@ -257,13 +223,14 @@ public class SheetData {
 
     }
 
+    private void parseFieldName(String content) {
+
+    }
+
     public void verify() throws Exception {
 
-        String globalTemplate = StringUtils.EMPTY;
+        String globalTemplate = sheetParams.loadFunctionMvlContent(mvlRootPath);
 
-        if (headParams.containsKey(HEAD_PARAM_GLOBAL_MVL)) {
-            globalTemplate = FileUtils.readFileToString(new File(mvlRootPath + headParams.get(HEAD_PARAM_GLOBAL_MVL)));
-        }
         if (attribute != null) {
             Verification.verify(attribute, globalTemplate);
         }
@@ -273,7 +240,7 @@ public class SheetData {
     }
 
     public void export() throws Exception {
-        for (SheetConfig config : configList) {
+        for (OutputConfig config : sheetParams.getOutput()) {
             String mvlFilePath = config.getMvl();
             Template template = MvelTemplate.load(mvlRootPath + mvlFilePath);
             long startAt = System.currentTimeMillis();
